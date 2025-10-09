@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Faz o body ocupar a altura toda e usa flexbox */
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main cresce para empurrar o footer para baixo */
+main {
+    flex: 1;
+}
+
+/* Header */
+.topo {
+    background: #111;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo span {
+    font-size: 12px;
+    margin-left: 5px;
+    font-weight: normal;
+}
+
+.topo nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.topo nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.icones {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icones input {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.icone {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Carrinho */
+.carrinho {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+}
+
+.item img {
+    width: 50px;
+}
+
+.item p {
+    font-size: 16px;
+}
+
+.finalizar {
+    display: block;
+    width: 25%;
+    text-align: center;
+    padding: 10px;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 20px auto; /* Centraliza horizontalmente */
+    font-weight: bold;
+}
+
+.finalizar:hover {
+    background: #c71c2c;
+}
+
+/* Rodapé */
+footer {
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
