@@ -1,0 +1,244 @@
+/* ======================
+   RESET / BASE
+====================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* ======================
+   CABEÇALHO
+====================== */
+/* ====== HEADER ====== */
+header {
+  background-color: #000;
+  color: #fff;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 40px;
+}
+
+.logo img {
+    height: 70px; /* Padronizado em 70px */
+    width: auto;
+}
+
+.logo span {
+  font-weight: 300;
+  font-size: 0.8rem;
+  display: block;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 8px 12px;
+  border-radius: 5px 0 0 5px;
+  border: none;
+  width: 250px;
+}
+
+.search-bar button {
+  background-color: #fff;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.icons span {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+/* === REGRAS DE NAVEGAÇÃO CORRIGIDAS === */
+/* Aplicando os estilos de 'nav ul' e 'nav li' diretamente em 'nav' e 'nav a' */
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: #d9d9d9;
+  list-style: none; /* Mantido do 'nav ul' */
+}
+
+/* 'nav li' não é mais necessário */
+
+nav a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  padding: 10px; /* Estilo original do 'nav a' */
+  display: block;
+  margin: 0 20px; /* Estilo de margem do 'nav li' aplicado aqui */
+}
+/* ... (regras anteriores do .icons span) ... */
+
+.icons span {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+/* NOVO CÓDIGO CSS A ADICIONAR */
+.icons a {
+  text-decoration: none; /* Remove o sublinhado */
+  color: inherit; /* Faz o ícone herdar a cor branca (do header) */
+}
+
+/* ======================
+   CONTEÚDO PRINCIPAL
+====================== */
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  padding: 40px;
+}
+
+/* ----------------------
+   SEÇÃO DE DADOS / ENTREGA
+----------------------- */
+.checkout-info {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.checkout-info h2 {
+  color: #0077cc;
+  margin-bottom: 15px;
+}
+
+.dados-contato, .endereco {
+  margin-bottom: 25px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.btn-continuar {
+  background: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-continuar:hover {
+  background: #000;
+}
+
+/* ----------------------
+   RESUMO DO PEDIDO
+----------------------- */
+.resumo-pedido {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.produto {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.produto-img {
+  width: 80px;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.produto-info p:first-child {
+  font-weight: bold;
+  text-transform: lowercase;
+}
+
+.valores {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.valores span {
+  float: right;
+}
+
+hr {
+  margin: 10px 0;
+  border: 0.5px solid #ccc;
+}
+
+.valores h3 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.btn-cupom {
+  background: #eee;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+/* ======================
+   RODAPÉ
+====================== */
+footer {
+  background: #000;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  font-size: 0.9em;
+}
+footer a {
+  color: #fff;
+  margin-left: 15px;
+  text-decoration: none;
+}
