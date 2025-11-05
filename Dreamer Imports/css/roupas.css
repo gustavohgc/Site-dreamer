@@ -1,13 +1,7 @@
 
-/* ====== BODY ====== */
-body {
-  background-color: #a6a6a6;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
 
 /* ====== HEADER ====== */
+
 /* ====== HEADER ====== */
 header {
   background-color: #000;
@@ -78,7 +72,6 @@ nav a {
   display: block;
   margin: 0 20px; /* Estilo de margem do 'nav li' aplicado aqui */
 }
-
 /* ====== PRODUTO ====== */
 main {
   flex: 1;
@@ -194,20 +187,16 @@ main {
 
 /* ====== FOOTER ====== */
 footer {
-  background-color: #000;
+  background: #000;
   color: #fff;
-  padding: 12px 30px;
-  text-align: center;
-  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  font-size: 0.9em;
 }
-
-.footer-links {
-  margin-top: 6px;
-}
-
-.footer-links a {
+footer a {
   color: #fff;
-  margin: 0 10px;
+  margin-left: 15px;
   text-decoration: none;
-  font-style: italic;
 }

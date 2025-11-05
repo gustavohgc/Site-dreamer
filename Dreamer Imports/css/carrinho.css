@@ -1,0 +1,173 @@
+
+
+/* Faz o body ocupar a altura toda e usa flexbox */
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main cresce para empurrar o footer para baixo */
+main {
+    flex: 1;
+}
+
+/* Header */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #bfbfbf;
+}
+
+/* ====== HEADER ====== */
+header {
+  background-color: #000;
+  color: #fff;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 40px;
+}
+
+.logo img {
+    height: 70px; /* Padronizado em 70px */
+    width: auto;
+}
+
+.logo span {
+  font-weight: 300;
+  font-size: 0.8rem;
+  display: block;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 8px 12px;
+  border-radius: 5px 0 0 5px;
+  border: none;
+  width: 250px;
+}
+
+.search-bar button {
+  background-color: #fff;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.icons span {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+/* === REGRAS DE NAVEGAÇÃO CORRIGIDAS === */
+/* Aplicando os estilos de 'nav ul' e 'nav li' diretamente em 'nav' e 'nav a' */
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: #d9d9d9;
+  list-style: none; /* Mantido do 'nav ul' */
+}
+
+/* 'nav li' não é mais necessário */
+
+nav a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  padding: 10px; /* Estilo original do 'nav a' */
+  display: block;
+  margin: 0 20px; /* Estilo de margem do 'nav li' aplicado aqui */
+}
+/* ... (regras anteriores do .icons span) ... */
+
+.icons span {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+/* NOVO CÓDIGO CSS A ADICIONAR */
+.icons a {
+  text-decoration: none; /* Remove o sublinhado */
+  color: inherit; /* Faz o ícone herdar a cor branca (do header) */
+}
+/* Carrinho */
+.carrinho {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+}
+
+.item img {
+    width: 50px;
+}
+
+.item p {
+    font-size: 16px;
+}
+
+.finalizar {
+    display: block;
+    width: 25%;
+    text-align: center;
+    padding: 10px;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 20px auto; /* Centraliza horizontalmente */
+    font-weight: bold;
+}
+
+.finalizar:hover {
+    background: #c71c2c;
+}
+
+/* Rodapé */
+footer {
+  background: #000;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  font-size: 0.9em;
+}
+footer a {
+  color: #fff;
+  margin-left: 15px;
+  text-decoration: none;
+}
+footer ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
