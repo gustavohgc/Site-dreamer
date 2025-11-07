@@ -29,6 +29,32 @@ setInterval(() => {
   showPromo(index);
 }, 4000);
 
+/* ======= DETALHES DO PRODUTO ======= */
+document.addEventListener('DOMContentLoaded', () => {
+  // Carregar produto se estiver na página de produto
+  if (document.querySelector('.produto-container')) {
+    carregarProduto();
+  }
+
+  // Configurar eventos das miniaturas
+  const thumbs = document.querySelectorAll('.galeria .thumb');
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      document.querySelector('.imagem-principal img').src = thumb.src;
+    });
+  });
+
+  // Configurar eventos dos botões de cor
+  const botoesCor = document.querySelectorAll('.opcoes-cores button');
+  botoesCor.forEach(botao => {
+    botao.addEventListener('click', () => {
+      botoesCor.forEach(b => b.classList.remove('selecionado'));
+      botao.classList.add('selecionado');
+    });
+  });
+});
+
+
 /* ======= UTILITÁRIOS DE CARRINHO ======= */
 const CART_KEY = "dreamer_cart_v1";
 
