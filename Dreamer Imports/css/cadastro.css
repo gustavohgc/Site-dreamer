@@ -1,3 +1,23 @@
+/* ====== RESET ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ====== BODY ====== */
+body {
+  font-family: Arial, sans-serif;
+  background: #bfbfbf;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main.container {
+  flex: 1; /* Empurra o footer para baixo */
+}
+
 /* ====== HEADER ====== */
 header {
   background-color: #000;
@@ -12,8 +32,8 @@ header {
 }
 
 .logo img {
-    height: 70px; /* Padronizado em 70px */
-    width: auto;
+  height: 70px; /* Padronizado em 70px */
+  width: auto;
 }
 
 .logo span {
@@ -25,13 +45,15 @@ header {
 .search-bar {
   display: flex;
   align-items: center;
+  flex-grow: 1; /* Faz a barra crescer */
+  margin: 0 20px;
 }
 
 .search-bar input {
   padding: 8px 12px;
   border-radius: 5px 0 0 5px;
   border: none;
-  width: 250px;
+  width: 100%; /* Ocupa o espaço */
 }
 
 .search-bar button {
@@ -42,32 +64,35 @@ header {
   cursor: pointer;
 }
 
+.icons {
+  display: flex;
+  align-items: center;
+}
+
 .icons span {
   margin-left: 15px;
   cursor: pointer;
   font-size: 1.3rem;
+  color: #fff;
 }
 
 /* === REGRAS DE NAVEGAÇÃO CORRIGIDAS === */
-/* Aplicando os estilos de 'nav ul' e 'nav li' diretamente em 'nav' e 'nav a' */
-
 nav {
   display: flex;
   justify-content: center;
   background-color: #d9d9d9;
-  list-style: none; /* Mantido do 'nav ul' */
+  list-style: none;
 }
-
-/* 'nav li' não é mais necessário */
 
 nav a {
   text-decoration: none;
   color: #000;
   font-weight: 500;
-  padding: 10px; /* Estilo original do 'nav a' */
+  padding: 10px;
   display: block;
-  margin: 0 20px; /* Estilo de margem do 'nav li' aplicado aqui */
+  margin: 0 20px;
 }
+
 /* Área de Cadastro */
 .container {
   display: flex;
@@ -86,7 +111,8 @@ nav a {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 300px;
+  width: 100%; /* Mais flexível */
+  max-width: 400px; /* Limita a largura */
 }
 
 .input-box {
@@ -115,7 +141,7 @@ nav a {
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 10px;
+  padding: 15px; /* Aumentei o padding para ficar igual ao Google */
   font-size: 1.2em;
   cursor: pointer;
   margin-top: 10px;
@@ -123,6 +149,27 @@ nav a {
 
 .btn:hover {
   opacity: 0.9;
+}
+
+/* === ESTILO DO BOTÃO GOOGLE (MOVIDO PARA CÁ) === */
+.btn-google {
+  background-color: #4285F4;
+  color: white;
+  width: 100%;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px; /* Ajustado para 1.2em (aprox) */
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.btn-google:hover {
+  background-color: #357ae8;
 }
 
 .login-link {
@@ -137,6 +184,7 @@ nav a {
   text-decoration: none;
 }
 
+/* === FOOTER === */
 footer {
   background: #000;
   color: #fff;

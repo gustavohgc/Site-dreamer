@@ -2,17 +2,17 @@
 <html lang="pt-BR">
 <head>
 <link rel="stylesheet" href="../css/checkout.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dreamer Imports - Checkout</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dreamer Imports - Checkout</title>
 </head>
 <body>
 
-  <!-- 🔹 Cabeçalho -->
-  <header>
+  <!-- 🔹 Cabeçalho (CORRIGIDO com IDs de Login) -->
+  <header>
     <div class="navbar">
       <div class="logo"><a href="index.html">
-          <img src="../img/logo.png" alt="logo"></a>
+          <img src="img/logo.png" alt="logo"></a>
       </div>
       <div class="search-bar">
         <input type="text" placeholder="Buscar...">
@@ -23,87 +23,107 @@
         <a href="carrinho.html"><span>🛒</span></a>
       </div>
     </div>
-    <nav>
-      <a href="listagemCamisetas.html">CAMISETAS</a>
-      <a href="listagemCalças.html">CALÇAS</a>
-      <a href="listagemBermudas.html">BERMUDAS</a>
-      <a href="listagemMoletom.html">MOLETOM</a>
-      <a href="listagemCalçados.html">CALÇADOS</a>
-      <a href="listagemAcessorios.html">ACESSÓRIOS</a>
-    </nav>
-  </header>
-  <!-- 🔹 Conteúdo principal -->
-  <main class="container">
-    <section class="checkout-info">
+      
+    </div>
+    <nav>
+      <a href="listagemCamisetas.html">CAMISETAS</a>
+      <a href="listagemCalças.html">CALÇAS</a>
+      <a href="listagemBermudas.html">BERMUDAS</a>
+      <a href="listagemMoletom.html">MOLETOM</a>
+      <a href="listagemCalçados.html">CALÇADOS</a>
+      <a href="listagemAcessorios.html">ACESSÓRIOS</a>
+    </nav>
+  </header>
+  
+  <!-- 🔹 Conteúdo principal -->
+  <main class="container">
 
-      <div class="dados-contato">
-        <h3>Dados de Contato</h3>
-        <form>
-          <div class="form-row">
-            <input type="text" placeholder="Nome">
-            <input type="text" placeholder="Sobrenome">
-          </div>
-          <div class="form-row">
-            <input type="email" placeholder="E-mail">
-            <input type="tel" placeholder="Telefone">
-          </div>
-          <label class="checkbox">
-            <input type="checkbox"> Receber ofertas e novidades por e-mail
-          </label>
-        </form>
-      </div>
+    <!-- 
+    ==============================================
+      FORMULÁRIO CORRIGIDO COM IDs
+    ==============================================
+    -->
+    <form class="checkout-info" id="form-cliente">
+      <div class="dados-contato">
+        <h3>Dados de Contato</h3>
+          <div class="form-row">
+            <!-- IDs adicionados -->
+            <input type="text" placeholder="Nome" id="nome-checkout" required>
+            <input type="text" placeholder="Sobrenome" id="sobrenome-checkout">
+          </div>
+          <div class="form-row">
+            <input type="email" placeholder="E-mail" id="email-checkout">
+            <input type="tel" placeholder="Telefone (DDD + Número)" id="telefone-checkout" required>
+          </div>
+          <label class="checkbox">
+            <input type="checkbox"> Receber ofertas e novidades por e-mail
+          </label>
+      </div>
 
-      <div class="endereco">
-        <h3>Entrega</h3>
-        <label class="checkbox">
-          <input type="checkbox" checked> Entrega disponível apenas na cidade da loja
-        </label>
+      <div class="endereco">
+        <h3>Entrega</h3>
+        <label class="checkbox">
+          <input type="checkbox" checked> Entrega disponível apenas na cidade da loja
+        </label>
 
-        <div class="form-row">
-          <input type="text" placeholder="Rua">
-          <input type="text" placeholder="Número">
-        </div>
-        <div class="form-row">
-          <input type="text" placeholder="Bairro">
-          <input type="text" placeholder="Complemento">
-        </div>
-      </div>
+        <div class="form-row">
+            <!-- IDs adicionados -->
+          <input type="text" placeholder="Rua" id="rua-checkout" required>
+          <input type="text" placeholder="Número" id="numero-checkout" required>
+        </div>
+        <div class="form-row">
+          <input type="text" placeholder="Bairro" id="bairro-checkout" required>
+          <input type="text" placeholder="Complemento (Apto, Bloco)" id="complemento-checkout">
+        </div>
+      </div>
 
-        <button class="btn-continuar" onclick="window.location.href='pagamento.html'">Continuar para pagamento</button>
+      <button type="submit" class="btn-continuar">Finalizar Pedido via WhatsApp</button>
+    
+    </form>
+    <!-- FIM DO FORMULÁRIO -->
 
-    </section>
 
-    <aside class="resumo-pedido">
-      <div class="produto">
-        <img src="../img/camisetas.png" alt="Camisa Dreamer" class="produto-img">
-        <div class="produto-info">
-          <p>camisa streetwear hoshwear global distortion preta (g)</p>
-          <p>x 1</p>
-        </div>
-      </div>
+    <aside class="resumo-pedido">
+      <h3>Resumo do Pedido</h3>
+      
+      <!-- 
+      ==============================================
+        RESUMO DINÂMICO (COM IDs)
+      ==============================================
+      -->
+      <div id="lista-produtos-resumo">
+        <!-- Os produtos do carrinho aparecerão aqui -->
+        <p>A carregar carrinho...</p>
+      </div>
+      
+      <div class="valores" id="valores-resumo">
+        <p>Subtotal <span>R$ 0,00</span></p>
+        <!-- <p> Cupom de desconto <strong>DREAMER (10%)</strong></p> -->
+        <hr>
+        <h3>Total <span>R$ 0,00</span></h3>
+      </div>
+    </aside>
+  </main>
 
-      <div class="valores">
-        <p>Subtotal <span>R$ 199,00</span></p>
-        <p> Cupom de desconto <strong>DREAMER (10%)</strong></p>
-        <hr>
-        <h3>Total <span>R$ 179,10</span></h3>
-      </div>
+  <!-- 🔹 Rodapé (Intacto) -->
+  <footer class="footer">
+    <p>Copyright 2025 | Dreamer Imports</p>
+    <div class="footer-links">
+      <a href="./quemsomos.html">Quem somos?</a> 
+      <a href="./atendimento.html">Central de Atendimento</a>
+      <a href="#">Acessibilidade</a>
+    </div>
+  </footer>
 
-      <button class="btn-cupom">Remover / Alterar cupom </button>
-    </aside>
-  </main>
-
-  <!-- 🔹 Rodapé -->
-  <footer class="footer">
-    <p>Copyright 2025 | Dreamer Imports</p>
-    <div class="footer-links">
-      <a href="./quemsomos.html">Quem somos?</a> 
-      <a href="./atendimento.html">Central de Atendimento</a>
-      <a href="#">Acessibilidade</a>
-    </div>
-  </footer>
-
-  <script src="../script.js"></script>
-
+  <!-- 
+  ==============================================
+    SCRIPTS CORRIGIDOS
+  ==============================================
+  -->
+  <!-- O seu script de login global (CORRETO) -->
+  <script type="module" src="../auth-global.js"></script>
+  
+  <!-- O NOVO script para esta página (caminho corrigido) -->
+  <script src="finalizar.js"></script>
 </body>
 </html>

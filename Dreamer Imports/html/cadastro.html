@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<link rel="stylesheet" href="../css/cadastro.css">
+  <!-- Corrigi o caminho do CSS para a pasta 'css' -->
+  <link rel="stylesheet" href="../css/cadastro.css"> 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro | Dreamer Imports</title>
 </head>
 <body>
   <header>
+    
     <div class="navbar">
       <div class="logo"><a href="index.html">
-          <img src="../img/logo.png" alt="logo"></a>
+          <img src="img/logo.png" alt="logo"></a>
       </div>
       <div class="search-bar">
         <input type="text" placeholder="Buscar...">
@@ -23,37 +25,33 @@
     </div>
     <nav>
       <a href="listagemCamisetas.html">CAMISETAS</a>
-    <a href="listagemCalças.html">CALÇAS</a>
-    <a href="listagemBermudas.html">BERMUDAS</a>
-    <a href="listagemMoletom.html">MOLETOM</a>
-    <a href="listagemCalçados.html">CALÇADOS</a>
-    <a href="listagemAcessorios.html">ACESSÓRIOS</a>
+      <a href="listagemCalças.html">CALÇAS</a>
+      <a href="listagemBermudas.html">BERMUDAS</a>
+      <a href="listagemMoletom.html">MOLETOM</a>
+      <a href="listagemCalçados.html">CALÇADOS</a>
+      <a href="listagemAcessorios.html">ACESSÓRIOS</a>
     </nav>
   </header>
 
   <main class="container">
     <h2>Cadastrar Conta</h2>
 
-    <form class="form-cadastro">
+    <!-- Adicionei os IDs para o JavaScript funcionar -->
+    <form class="form-cadastro" id="form-registro">
       <div class="input-box">
-        <input type="text" placeholder="Nome completo" required>
+        <input type"text" placeholder="Nome completo" required id="nome-C">
       </div>
-
       <div class="input-box">
-        <input type="email" placeholder="E-mail" required>
+        <input type="email" placeholder="E-mail" required id="email-C">
       </div>
-
       <div class="input-box">
-        <input type="password" placeholder="Senha" required>
+        <input type="password" placeholder="Senha" required id="senha-C">
       </div>
-
       <div class="input-box">
-        <input type="password" placeholder="Confirmar senha" required>
+        <input type="password" placeholder="Confirmar senha" required id="confirmarsenha-C">
       </div>
-
       <button type="submit" class="btn">Cadastrar</button>
-
-      <p class="login-link">Já tem uma conta? <a href="login.html">Entrar</a></p>
+      <p class="login-link">Já tem uma conta? <a href="entrar.html">Entrar</a></p>
     </form>
   </main>
 
@@ -66,7 +64,94 @@
     </div>
   </footer>
 
-  <script src="../script.js"></script>
+  <!-- 
+  ======================================================
+    SCRIPT DA PÁGINA DE CADASTRO
+  ======================================================
+  -->
+  <script type="module">
+    // 1. IMPORTAÇÕES
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc 
+    } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+    // 2. CONFIGURAÇÃO (A sua)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpAgZMHjz0yk4LDle6b9bdEHWmuLXQmUQ",
+      authDomain: "meusite-login.firebaseapp.com",
+      projectId: "meusite-login",
+      storageBucket: "meusite-login.firebasestorage.app",
+      messagingSenderId: "133209410475",
+      appId: "1:133209410475:web:8de840ccb41a9f643de0ee",
+      measurementId: "G-15NMNRGP61"
+    };
+
+    // 3. INICIALIZAÇÃO
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    auth.languageCode = 'pt';
+
+    // 4. SELETORES
+    const formRegistro = document.getElementById('form-registro');
+    const nomeRegistro = document.getElementById('nome-C');
+    const emailRegistro = document.getElementById('email-C');
+    const senhaRegistro = document.getElementById('senha-C');
+    const confirmarSenhaRegistro = document.getElementById('confirmarsenha-C');
+
+    // 5. FUNÇÃO DE REGISTRO
+    formRegistro.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nome = nomeRegistro.value;
+      const email = emailRegistro.value;
+      const senha = senhaRegistro.value;
+      const confirmarSenha = confirmarSenhaRegistro.value;
+
+      if (senha !== confirmarSenha) {
+        alert('As senhas não são iguais!');
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+        const user = userCredential.user;
+        await setDoc(doc(db, "usuarios", user.uid), {
+          nome: nome,
+          email: email,
+          dataCadastro: new Date()
+        });
+        alert('Conta criada com sucesso! Você já está logado.');
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Erro no registro:", error.code);
+        let msg = 'Erro ao registar: ' + error.message;
+        if (error.code === 'auth/weak-password') {
+          msg = 'A sua senha é muito fraca. Precisa de pelo menos 6 caracteres.';
+        } else if (error.code === 'auth/email-already-in-use') {
+          msg = 'Este e-mail já está a ser usado por outra conta.';
+        }
+        alert(msg);
+      }
+    });
+
+    // 6. OBSERVADOR (Redireciona se já estiver logado)
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Utilizador já logado, a redirecionar...");
+        if (window.location.pathname.includes("cadastro.html")) {
+          window.location.href = "index.html";
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>

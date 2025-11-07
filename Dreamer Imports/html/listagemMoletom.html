@@ -12,14 +12,18 @@
   <header>
     <div class="navbar">
       <div class="logo"><a href="index.html">
-          <img src="../img/logo.png" alt="logo"></a>
+          <img src="img/logo.png" alt="logo"></a>
       </div>
       <div class="search-bar">
         <input type="text" placeholder="Buscar...">
         <button>🔍</button>
       </div>
       <div class="icons">
-        <a href="cadastro.html"><span>👤</span></a>
+        <div class="icons">
+       <button id="btn-header-login" title="Entrar ou Cadastrar" class="icon-button">👤</button>
+       <!-- 2. Elementos do Usuário Logado  -->
+      <span id="header-user-name" class="header-user-text" style="display: none;"></span>
+      <button id="btn-header-logout" class="btn-logout-header" style="display: none;">Sair</button>
         <a href="carrinho.html"><span>🛒</span></a>
       </div>
     </div>
@@ -112,6 +116,6 @@
   <script src="../script.js"></script>
   <script src="../js/filtros.js"></script>
   <script src="../js/visualizacao.js"></script>
-  
+ <script type="module" src="../auth-global.js"></script>
 </body>
 </html>
