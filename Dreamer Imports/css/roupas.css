@@ -81,7 +81,7 @@ main {
 .produto-container {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  gap: 40px;
+  gap: 0px;
   align-items: start;
 }
 
@@ -99,7 +99,7 @@ main {
 }
 
 .imagem-principal img {
-  width: 100%;
+  width: 70%;
   background-color: #cfcfcf;
   border-radius: 8px;
 }

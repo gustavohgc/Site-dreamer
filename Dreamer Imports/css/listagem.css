@@ -122,8 +122,8 @@ nav a {
 }
 
 .product img {
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  
   margin-bottom: 10px;
 }
 
