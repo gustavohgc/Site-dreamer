@@ -387,15 +387,26 @@ function renderCartOnCartPage() {
   });
   const finalizar = document.getElementById("btn-finalizar-carrinho");
   if (finalizar) finalizar.addEventListener("click", () => {
-    // monta ficha do pedido e exibe em mensagem (toast)
+    // monta ficha do pedido e envia via WhatsApp
     const cart = getCart();
     if (!cart.length) return;
-    let msg = "Pedido Dreamer Imports:\n";
+    let msg = "*Pedido - Dreamer Imports*\n";
     cart.forEach((item, i) => {
-      msg += `${i+1}. ${item.title} - ${item.size ? 'Tam: ' + item.size : ''} ${item.color ? 'Cor: ' + item.color : ''} x${item.quantity} - ${formatBRL(item.price * item.quantity)}\n`;
+      const itemTotal = formatBRL(Number(item.price || 0) * Number(item.quantity || 1));
+      msg += `${i+1}. ${item.title} ${item.size ? '- Tam: ' + item.size : ''} ${item.color ? '- Cor: ' + item.color : ''} x${item.quantity} - ${itemTotal}\n`;
     });
-    msg += `\nTotal: ${formatBRL(getCartTotal())}`;
-    showToast(msg, 6000);
+    msg += `\n*Total:* ${formatBRL(getCartTotal())}`;
+    // número com código do país (BR = 55) e DDD 34
+    const phone = '5534998716289';
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    // abre em nova aba/janela para iniciar conversa no WhatsApp
+    try {
+      window.open(url, '_blank');
+      showToast('Abrindo WhatsApp para finalizar seu pedido...', 3000);
+    } catch (e) {
+      // fallback: redireciona na mesma janela
+      window.location.href = url;
+    }
   });
 }
 
