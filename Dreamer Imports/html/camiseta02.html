@@ -46,18 +46,15 @@
         <h3>R$ 135,00</h3>
 
         <div class="tamanhos">
-          <p>tamanho</p>
           <div class="opcoes">
             <button>P</button>
             <button>M</button>
             <button>G</button>
             <button>GG</button>
-            <button>XG</button>
           </div>
         </div>
 
         <div class="cores">
-          <p>cor</p>
           <div class="opcoes-cores">
             <button class="cor preta"></button>
             <button class="cor branca"></button>
@@ -65,7 +62,9 @@
           </div>
         </div>
 
-         <button class="btn-carrinho" onclick="window.location.href='carrinho.html'">🛒 Adicionar ao carrinho</button>
+        <label style="display:inline-block;margin-right:12px">Quantidade: <input class="qty" type="number" min="1" value="1" style="width:64px"></label>
+          <label style="display:inline-block;margin-right:12px">Quantidade: <input class="qty" type="number" min="1" value="1"></label>
+         <button class="btn-carrinho">🛒 Adicionar ao carrinho</button>
         <button class="btn-comprar" onclick="window.location.href='checkout.html'">Comprar Agora</button>
 
         
@@ -75,10 +74,9 @@
 
   <footer>
     <p>Copyright 2025 | Dreamer Imports</p>
-    <div class="footer-links">
+      <div class="footer-links">
       <a href="./quemsomos.html">Quem somos?</a> 
       <a href="./atendimento.html">Central de Atendimento</a>
-      <a href="#">Acessibilidade</a>
     </div>
   </footer>
 

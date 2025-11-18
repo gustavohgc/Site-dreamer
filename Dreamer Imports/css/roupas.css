@@ -136,6 +136,20 @@ main {
   background-color: #bfbfbf;
 }
 
+/* ====== QUANTITY INPUT ====== */
+input.qty, input.quantity {
+  width: 76px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* Espaçamento entre cores e quantidade */
+.opcoes-cores { margin-bottom: 12px; }
+.detalhes label { margin-top: 12px; display: inline-block; }
+
 /* ====== CORES ====== */
 .cores {
   margin-top: 20px;
