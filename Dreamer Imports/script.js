@@ -450,14 +450,14 @@ function initSearchBars() {
     inp.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         const q = inp.value.trim();
-        const url = "listagem.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
+        const url = "listagemCamisetas.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
         // como as páginas estão em html/, usamos navegação relativa
         window.location.href = url;
       }
     });
   });
   // se estivermos em listagem.html e existir param q, tentar filtrar (simples)
-  if (window.location.pathname.endsWith("listagem.html")) {
+  if (window.location.pathname.endsWith("listagemCamisetas.html")) {
     const params = new URLSearchParams(window.location.search);
     const q = params.get("q");
     if (q) {

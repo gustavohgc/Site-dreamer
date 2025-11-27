@@ -169,7 +169,8 @@ main {
 
 .cor.preta { background-color: #000; }
 .cor.branca { background-color: #fff; }
-.cor.cinza { background-color: #777; }
+.cor.marrom { background-color: #583535; }
+.cor.bege { background-color: #827272}
 
 /* ====== BOTÕES ====== */
 .btn-carrinho,
