@@ -1,4 +1,3 @@
-
 const promos = [
   "PROMOÇÃO!!!",
   "FRETE GRÁTIS EM TODO O BRASIL!",
@@ -31,8 +30,8 @@ setInterval(() => {
 
 /* ======= DETALHES DO PRODUTO ======= */
 document.addEventListener('DOMContentLoaded', () => {
-  // Carregar produto se estiver na página de produto
-  if (document.querySelector('.produto-container')) {
+  // Carregar produto se estiver na página de produto (se houver função carregarProduto externa)
+  if (document.querySelector('.produto-container') && typeof carregarProduto === 'function') {
     carregarProduto();
   }
 
@@ -167,14 +166,20 @@ function updateCartBadge() {
   const count = cart.reduce((s, it) => s + (Number(it.quantity || 1)), 0);
   const cartLink = document.querySelector('.icons a[href="carrinho.html"], .icons a[href="./carrinho.html"]');
   if (!cartLink) return;
+  
+  // Procura ou cria o badge dentro do link ou do ícone
   let badge = cartLink.querySelector(".cart-badge");
+  
+  // Caso o ícone seja um span separado, ajusta onde o badge é inserido
   if (!badge) {
     badge = document.createElement("span");
     badge.className = "cart-badge";
-    badge.style.cssText = "background:#e63946;color:#fff;border-radius:12px;padding:2px 6px;font-size:12px;margin-left:8px";
+    badge.style.cssText = "background:#e63946;color:#fff;border-radius:12px;padding:2px 6px;font-size:12px;margin-left:4px;vertical-align:top";
     cartLink.appendChild(badge);
   }
+  
   badge.textContent = count;
+  badge.style.display = count > 0 ? 'inline-block' : 'none';
 }
 
 /* ======= GALERIA DE PRODUTOS ======= */
@@ -331,7 +336,7 @@ function renderCartOnCartPage() {
   footer.innerHTML = `
     <div style="text-align:right;font-weight:700">Subtotal: ${formatBRL(subtotal)}</div>
     <div style="text-align:center;margin-top:12px">
-      <button id="btn-finalizar-carrinho" style="background:#222;color:#fff;padding:10px 18px;border-radius:8px;border:none;cursor:pointer">Finalizar</button>
+      <button id="btn-finalizar-carrinho" class="finalizar">Finalizar Compra</button>
     </div>
   `;
   container.appendChild(list);
@@ -385,79 +390,183 @@ function renderCartOnCartPage() {
       }
     });
   });
+
+  // ========== MODIFICADO: REDIRECIONA PARA CHECKOUT ==========
   const finalizar = document.getElementById("btn-finalizar-carrinho");
   if (finalizar) finalizar.addEventListener("click", () => {
-    // monta ficha do pedido e envia via WhatsApp
-    const cart = getCart();
-    if (!cart.length) return;
-    let msg = "*Pedido - Dreamer Imports*\n";
-    cart.forEach((item, i) => {
-      const itemTotal = formatBRL(Number(item.price || 0) * Number(item.quantity || 1));
-      msg += `${i+1}. ${item.title} ${item.size ? '- Tam: ' + item.size : ''} ${item.color ? '- Cor: ' + item.color : ''} x${item.quantity} - ${itemTotal}\n`;
-    });
-    msg += `\n*Total:* ${formatBRL(getCartTotal())}`;
-    // número com código do país (BR = 55) e DDD 34
-    const phone = '5534998716289';
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-    // abre em nova aba/janela para iniciar conversa no WhatsApp
-    try {
-      window.open(url, '_blank');
-      showToast('Abrindo WhatsApp para finalizar seu pedido...', 3000);
-    } catch (e) {
-      // fallback: redireciona na mesma janela
-      window.location.href = url;
-    }
+    // Redireciona para o checkout para preencher dados
+    window.location.href = "checkout.html";
   });
 }
 
-/* ======= RENDERIZA RESUMO EM checkout.html / pagamento.html ======= */
+/* ======= RENDERIZA RESUMO EM checkout.html ======= */
 function renderSummaryOnCheckoutAndPagamento() {
   const path = window.location.pathname;
   if (!path.endsWith("checkout.html") && !path.endsWith("pagamento.html")) return;
+  
   const cart = getCart();
-  const summaryContainers = document.querySelectorAll(".resumo-pedido, .valores, .resumo");
+  const summaryContainers = document.querySelectorAll("#lista-produtos-resumo, .resumo-pedido, .valores, .resumo");
   const total = getCartTotal();
-  summaryContainers.forEach(container => {
-    // limpa e monta
-    container.innerHTML = "";
-    cart.forEach(item => {
-      const row = document.createElement("div");
-      row.style.display = "flex";
-      row.style.alignItems = "center";
-      row.style.justifyContent = "space-between";
-      row.style.marginBottom = "8px";
-      const totalItem = (Number(item.price || 0) * Number(item.quantity || 1));
-      row.innerHTML = `<span style="display:flex;gap:8px;align-items:center">
-        <img src="${item.img || '../img/exemplo1.png'}" style="width:48px;border-radius:6px">
-        <span style="text-transform:lowercase">${item.title} ${item.size ? ('— ' + item.size) : ''} ${item.color ? ('— ' + item.color) : ''} (x${item.quantity || 1})</span>
-      </span><strong>${formatBRL(totalItem)}</strong>`;
-      container.appendChild(row);
+
+  // Se não tiver container específico com ID, usa os genéricos, mas vamos focar no ID do checkout.html
+  const listaProdutosEl = document.getElementById('lista-produtos-resumo');
+  const valoresEl = document.getElementById('valores-resumo');
+
+  if (listaProdutosEl && valoresEl) {
+     // Renderização Específica para Checkout.html
+     listaProdutosEl.innerHTML = "";
+     
+     if(cart.length === 0) {
+         listaProdutosEl.innerHTML = "<p>Seu carrinho está vazio.</p>";
+     }
+
+     cart.forEach(item => {
+        const row = document.createElement("div");
+        row.style.cssText = "display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; font-size: 0.9em;";
+        const totalItem = (Number(item.price || 0) * Number(item.quantity || 1));
+        
+        row.innerHTML = `
+            <div style="display:flex; align-items:center; gap:10px;">
+                <img src="${item.img || '../img/exemplo1.png'}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                <div>
+                    <strong>${item.title}</strong><br>
+                    <span style="color:#666; font-size:0.85em;">${item.size ? 'Tam: '+item.size : ''} ${item.color ? '| '+item.color : ''}</span><br>
+                    <span>Qtd: ${item.quantity}</span>
+                </div>
+            </div>
+            <div>${formatBRL(totalItem)}</div>
+        `;
+        listaProdutosEl.appendChild(row);
+     });
+
+     // Renderiza Totais
+     valoresEl.innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span>Subtotal</span>
+            <span>${formatBRL(total)}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px; color:#27ae60;">
+            <span>Entrega</span>
+            <span>A combinar</span>
+        </div>
+        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
+        <div style="display:flex; justify-content:space-between; font-size:1.2em; font-weight:bold;">
+            <span>Total</span>
+            <span>${formatBRL(total)}</span>
+        </div>
+     `;
+
+  } else {
+     // Fallback para outras páginas de resumo se houver
+     summaryContainers.forEach(container => {
+        if(container.id === 'lista-produtos-resumo' || container.id === 'valores-resumo') return; // Já tratado acima
+
+        container.innerHTML = "";
+        cart.forEach(item => {
+            const row = document.createElement("div");
+            row.style.display = "flex";
+            row.style.alignItems = "center";
+            row.style.justifyContent = "space-between";
+            row.style.marginBottom = "8px";
+            const totalItem = (Number(item.price || 0) * Number(item.quantity || 1));
+            row.innerHTML = `<span style="display:flex;gap:8px;align-items:center">
+                <img src="${item.img || '../img/exemplo1.png'}" style="width:48px;border-radius:6px">
+                <span style="text-transform:lowercase">${item.title} ${item.size ? ('— ' + item.size) : ''} ${item.color ? ('— ' + item.color) : ''} (x${item.quantity || 1})</span>
+            </span><strong>${formatBRL(totalItem)}</strong>`;
+            container.appendChild(row);
+        });
+        const hr = document.createElement("hr");
+        hr.style.margin = "10px 0";
+        container.appendChild(hr);
+        const totalEl = document.createElement("h3");
+        totalEl.style.display = "flex";
+        totalEl.style.justifyContent = "space-between";
+        totalEl.innerHTML = `<span>Total</span><span>${formatBRL(total)}</span>`;
+        container.appendChild(totalEl);
     });
-    const hr = document.createElement("hr");
-    hr.style.margin = "10px 0";
-    container.appendChild(hr);
-    const totalEl = document.createElement("h3");
-    totalEl.style.display = "flex";
-    totalEl.style.justifyContent = "space-between";
-    totalEl.innerHTML = `<span>Total</span><span>${formatBRL(total)}</span>`;
-    container.appendChild(totalEl);
-  });
+  }
 }
 
-/* ======= BUSCA (redirect to listagem.html?q=...) ======= */
+/* ======= LÓGICA DO FORMULÁRIO DE CHECKOUT (WHATSAPP) ======= */
+function initCheckoutForm() {
+    const form = document.getElementById("form-cliente");
+    if (!form) return;
+
+    form.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+
+        const cart = getCart();
+        if (cart.length === 0) {
+            alert("Seu carrinho está vazio!");
+            return;
+        }
+
+        // Coletar dados do formulário
+        const nome = document.getElementById("nome-checkout")?.value || "";
+        const sobrenome = document.getElementById("sobrenome-checkout")?.value || "";
+        const email = document.getElementById("email-checkout")?.value || "";
+        const telefone = document.getElementById("telefone-checkout")?.value || "";
+        const rua = document.getElementById("rua-checkout")?.value || "";
+        const numero = document.getElementById("numero-checkout")?.value || "";
+        const bairro = document.getElementById("bairro-checkout")?.value || "";
+        const complemento = document.getElementById("complemento-checkout")?.value || "";
+
+        // Montar mensagem do WhatsApp
+        let msg = `*NOVO PEDIDO - DREAMER IMPORTS*\n\n`;
+        msg += `*👤 DADOS DO CLIENTE*\n`;
+        msg += `Nome: ${nome} ${sobrenome}\n`;
+        msg += `Telefone: ${telefone}\n`;
+        msg += `Email: ${email}\n\n`;
+
+        msg += `*📍 ENDEREÇO DE ENTREGA*\n`;
+        msg += `${rua}, Nº ${numero}\n`;
+        msg += `Bairro: ${bairro}\n`;
+        if (complemento) msg += `Complemento: ${complemento}\n`;
+        msg += `\n--------------------------------\n`;
+        
+        msg += `*🛒 ITENS DO PEDIDO*\n`;
+        cart.forEach((item, i) => {
+            const itemTotal = formatBRL(Number(item.price || 0) * Number(item.quantity || 1));
+            msg += `${i+1}. ${item.title}\n`;
+            msg += `   📝 ${item.size ? 'Tam: ' + item.size : ''} ${item.color ? '| Cor: ' + item.color : ''}\n`;
+            msg += `   📦 Qtd: ${item.quantity} | Valor: ${itemTotal}\n\n`;
+        });
+        
+        msg += `--------------------------------\n`;
+        msg += `*💰 TOTAL DO PEDIDO: ${formatBRL(getCartTotal())}*\n`;
+        msg += `--------------------------------\n`;
+        msg += `Aguardo a confirmação do pagamento e envio!`;
+
+        // Número com código do país (55) e DDD
+        const phone = '5534998716289'; 
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+
+        // Abrir WhatsApp
+        try {
+            window.open(url, '_blank');
+            showToast('Redirecionando para o WhatsApp...', 3000);
+            
+            // Opcional: Limpar carrinho após sucesso?
+            // localStorage.removeItem(CART_KEY);
+            // window.location.href = "sucesso.html"; // Se existir página de sucesso
+        } catch (e) {
+            window.location.href = url;
+        }
+    });
+}
+
+/* ======= BUSCA ======= */
 function initSearchBars() {
   document.querySelectorAll(".search-bar input").forEach(inp => {
     inp.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         const q = inp.value.trim();
-        const url = "listagemCamisetas.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
-        // como as páginas estão em html/, usamos navegação relativa
+        const url = "listagem.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
         window.location.href = url;
       }
     });
   });
-  // se estivermos em listagem.html e existir param q, tentar filtrar (simples)
-  if (window.location.pathname.endsWith("listagemCamisetas.html")) {
+  if (window.location.pathname.endsWith("listagem.html")) {
     const params = new URLSearchParams(window.location.search);
     const q = params.get("q");
     if (q) {
@@ -470,27 +579,6 @@ function initSearchBars() {
   }
 }
 
-/* ======= CADASTRO: validação simples ======= */
-function initCadastroValidation() {
-  const form = document.querySelector(".form-cadastro");
-  if (!form) return;
-  form.addEventListener("submit", (ev) => {
-    ev.preventDefault();
-    const pass = form.querySelector('input[type="password"]');
-    const passConfirm = Array.from(form.querySelectorAll('input[type="password"]'))[1];
-    if (pass && passConfirm && pass.value !== passConfirm.value) {
-      alert("As senhas não correspondem.");
-      return;
-    }
-    // opcional: salvar usuário demo
-    const email = form.querySelector('input[type="email"]')?.value || "";
-    const name = form.querySelector('input[type="text"]')?.value || "";
-    localStorage.setItem("dreamer_user", JSON.stringify({ name, email }));
-    alert("Cadastro realizado com sucesso!");
-    window.location.href = "index.html";
-  });
-}
-
 /* ======= INICIALIZAÇÃO ======= */
 function initSiteJS() {
   updateCartBadge();
@@ -498,11 +586,10 @@ function initSiteJS() {
   initAddToCartButtons();
   renderCartOnCartPage();
   renderSummaryOnCheckoutAndPagamento();
+  initCheckoutForm(); // Inicializa lógica do formulário de checkout
   initSearchBars();
-  initCadastroValidation();
 }
 
-/* delay small to garantir elementos dinâmicos */
 document.addEventListener("DOMContentLoaded", () => {
   initSiteJS();
 });

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<link rel="stylesheet" href="../css/carrinho.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho - Dreamer Imports</title>
+    <link rel="stylesheet" href="../css/carrinho.css">
 </head>
 <body>
     <header>
         <div class="navbar">
-            <div class="logo"><a href="index.html">
-                    <img src="img/logo.png" alt="logo"></a>
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../img/logo.png" alt="logo">
+                </a>
             </div>
             <div class="search-bar">
                 <input type="text" placeholder="Buscar...">
@@ -18,9 +20,9 @@
             </div>
             <div class="icons">
                 <a href="cadastro.html"><span>👤</span></a>
-                <a href="carrinho.html"><span>🛒</span></a>
+                <a href="carrinho.html"><span>🛒</span><span class="cart-badge">0</span></a>
             </div>
-            </div>
+        </div>
         <nav>
            <a href="listagemCamisetas.html">CAMISETAS</a>
             <a href="listagemCalças.html">CALÇAS</a>
@@ -29,22 +31,12 @@
             <a href="listagemAcessorios.html">ACESSÓRIOS</a>
         </nav>
     </header>
+    
     <!-- Main -->
     <main>
         <section class="carrinho">
-            <div class="item">
-                <img src="../img/Tenis.png" alt="Tênis">
-                <p>Preço: <span>129.99$</span></p>
-                <p>Total: <span>129.99$</span></p>
-            </div>
-
-            <div class="item">
-                <img src="../img/Tenis.png" alt="Tênis">
-                <p>Preço: <span>129.99$</span></p>
-                <p>Total: <span>129.99$</span></p>
-            </div>
-
-            <button class="finalizar">Finalizar</button>
+            <!-- O conteúdo será gerado dinamicamente pelo script.js -->
+            <p style="text-align: center; padding: 2rem; color: #666;">Carregando seu carrinho...</p>
         </section>
     </main>
 
@@ -60,7 +52,6 @@
     </footer>
 
     <script src="../script.js"></script>
-<script type="module" src="../auth-global.js"></script>
+    <script type="module" src="../auth-global.js"></script>
 </body>
 </html>
-            
