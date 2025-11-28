@@ -1,7 +1,32 @@
+
 const promos = [
   "PROMOÇÃO!!!",
   "FRETE GRÁTIS EM TODO O BRASIL!",
   "LEVE 3, PAGUE 2 EM CAMISETAS!",
+];
+
+/* ======= BANCO DE DADOS DE PRODUTOS (SIMULADO) ======= */
+// Centraliza todos os produtos para que a busca funcione em qualquer lugar
+const productsDB = [
+  // Camisetas
+  { id: 1, title: "Camisa Bege Streetwear", price: 120.00, img: "img/camiseta01.png", link: "roupas.html", category: "camisetas" },
+  { id: 2, title: "Camiseta Preta Blunt", price: 135.00, img: "img/camiseta02.png", link: "camiseta02.html", category: "camisetas" },
+  { id: 3, title: "Camiseta Preta NG", price: 299.90, img: "img/camiseta3.png", link: "camiseta03.html", category: "camisetas" },
+  { id: 4, title: "Camiseta Preta Logo", price: 229.90, img: "img/camiseta04.png", link: "camiseta04.html", category: "camisetas" },
+  // Bermudas
+  { id: 5, title: "Bermuda Cargo Bege", price: 129.90, img: "img/bermuda01.png", link: "bermuda01.html", category: "bermudas" },
+  { id: 6, title: "Bermuda Cargo Marrom", price: 159.90, img: "img/bermuda02.png", link: "bermuda02.html", category: "bermudas" },
+  { id: 7, title: "Bermuda Cargo Preta", price: 100.00, img: "img/bermuda03.png", link: "bermuda03.html", category: "bermudas" },
+  { id: 8, title: "Bermuda Preta", price: 60.00, img: "img/bermuda04.png", link: "bermuda04.html", category: "bermudas" },
+  { id: 9, title: "Bermuda Branca", price: 110.00, img: "img/bermuda05.png", link: "bermuda05.html", category: "bermudas" },
+  // Calças
+  { id: 10, title: "Calça Cargo", price: 199.90, img: "img/calca01.png", link: "calca.html", category: "calcas" },
+  // Calçados
+  { id: 11, title: "Tênis Hooks", price: 200.00, img: "img/sapato01.png", link: "sapato01.html", category: "calcados"},
+  { id: 12, title: "Tênis Bege", price: 249.90, img: "img/sapato02.png", link: "sapato02.html", category: "calcados" },
+  { id: 13, title: "Tênis Hooks Rosa", price: 299.90, img: "img/sapato03.png", link: "sapato03.html", category: "calcados" },
+  // Acessórios
+  { id: 14, title: "Mochila Fire", price: 199.90, img: "img/mochila01.png", link: "mochila.html", category: "acessorios" },
 ];
 
 let index = 0;
@@ -43,15 +68,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Seleção de cor e tamanho: listeners diretos por produto
-  document.querySelectorAll('.produto-container, .card, .product').forEach(container => {
+  setupProductInteractions(document); // Inicializa eventos para elementos existentes
+});
+
+// Função auxiliar para configurar eventos de tamanho/cor e botões de adicionar
+// Útil para chamar após renderizar produtos dinamicamente
+function setupProductInteractions(rootElement) {
+  // Seleção de cor e tamanho
+  rootElement.querySelectorAll('.produto-container, .card, .product').forEach(container => {
     // Tamanhos
-    const sizeBtns = container.querySelectorAll('.tamanhos .opcoes button');
+    const sizeBtns = container.querySelectorAll('.tamanhos .opcoes button, .sizes .size');
     sizeBtns.forEach(btn => {
       btn.addEventListener('click', function(ev) {
         ev.preventDefault();
-        sizeBtns.forEach(b => b.classList.remove('selecionado'));
-        btn.classList.add('selecionado');
+        sizeBtns.forEach(b => b.classList.remove('selecionado', 'highlight'));
+        btn.classList.add('selecionado', 'highlight'); // highlight usado na listagem
         container.dataset.selectedSize = btn.textContent.trim();
       });
     });
@@ -62,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ev.preventDefault();
         colorBtns.forEach(b => b.classList.remove('selecionado'));
         btn.classList.add('selecionado');
-        // nome da cor por classe
         const classes = Array.from(btn.classList);
         const color = classes.find(c => c !== 'cor' && c !== 'selecionado') || btn.getAttribute('aria-label') || '';
         container.dataset.selectedColor = color;
@@ -71,13 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Garantir campos de quantidade defaults
-  document.querySelectorAll('input.qty, input.quantity').forEach(inp => {
+  rootElement.querySelectorAll('input.qty, input.quantity').forEach(inp => {
     if (!inp.value) inp.value = 1;
     inp.addEventListener('input', () => {
       if (Number(inp.value) < 1) inp.value = 1;
     });
   });
-});
+  initAddToCartButtons(rootElement); 
+}
 
 
 /* ======= UTILITÁRIOS DE CARRINHO ======= */
@@ -98,7 +129,6 @@ function saveCart(cart) {
 }
 function addToCart(item) {
   const cart = getCart();
-  // procura item igual (mesmo título, tamanho e cor) para incrementar quantidade
   const matchIdx = cart.findIndex(it => (
     (it.title || '') === (item.title || '') &&
     (it.size || null) === (item.size || null) &&
@@ -107,7 +137,6 @@ function addToCart(item) {
   if (matchIdx >= 0) {
     cart[matchIdx].quantity = Number(cart[matchIdx].quantity || 1) + Number(item.quantity || 1);
   } else {
-    // garantir campos básicos
     if (typeof item.quantity === 'undefined') item.quantity = 1;
     cart.push(item);
   }
@@ -128,7 +157,7 @@ function formatBRL(n) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(n);
 }
 
-/* ======= TOAST (pequeno feedback) ======= */
+/* ======= TOAST ======= */
 function showToast(text, duration = 2200) {
   try {
     let container = document.querySelector('.toast-container');
@@ -143,7 +172,6 @@ function showToast(text, duration = 2200) {
     t.style.cssText = 'background:rgba(0,0,0,0.85);color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.2);font-size:14px;opacity:0;transform:translateY(6px);transition:all 220ms ease';
     t.textContent = text;
     container.appendChild(t);
-    // force reflow then show
     requestAnimationFrame(() => {
       t.style.opacity = '1';
       t.style.transform = 'translateY(0)';
@@ -154,7 +182,6 @@ function showToast(text, duration = 2200) {
       setTimeout(() => t.remove(), 240);
     }, duration);
   } catch (e) {
-    // fallback silencioso
     console.warn('Toast error', e);
   }
 }
@@ -162,15 +189,11 @@ function showToast(text, duration = 2200) {
 /* ======= BADGE DO CARRINHO ======= */
 function updateCartBadge() {
   const cart = getCart();
-  // mostrar soma das quantidades no badge
   const count = cart.reduce((s, it) => s + (Number(it.quantity || 1)), 0);
   const cartLink = document.querySelector('.icons a[href="carrinho.html"], .icons a[href="./carrinho.html"]');
   if (!cartLink) return;
   
-  // Procura ou cria o badge dentro do link ou do ícone
   let badge = cartLink.querySelector(".cart-badge");
-  
-  // Caso o ícone seja um span separado, ajusta onde o badge é inserido
   if (!badge) {
     badge = document.createElement("span");
     badge.className = "cart-badge";
@@ -182,7 +205,7 @@ function updateCartBadge() {
   badge.style.display = count > 0 ? 'inline-block' : 'none';
 }
 
-/* ======= GALERIA DE PRODUTOS ======= */
+/* ======= GALERIA ======= */
 function initGalleries() {
   document.querySelectorAll(".produto-container").forEach(container => {
     const mainImg = container.querySelector(".imagem-principal img");
@@ -198,38 +221,42 @@ function initGalleries() {
 
 /* ======= ADD AO CARRINHO ======= */
 function extractProductFromPage(button) {
-  // tenta extrair dados do DOM do produto mais próximo
   const card = button.closest(".produto-container") || button.closest(".card") || button.closest(".product") || document.body;
   const title =
     (card.querySelector(".detalhes h2") && card.querySelector(".detalhes h2").textContent.trim()) ||
     (card.querySelector("h4") && card.querySelector("h4").textContent.trim()) ||
     (card.querySelector("h2") && card.querySelector("h2").textContent.trim()) ||
+    (card.querySelector("p:first-of-type") && card.querySelector("p:first-of-type").textContent.trim()) ||
     document.title || "Produto";
+  
   const priceText =
     (card.querySelector(".detalhes h3") && card.querySelector(".detalhes h3").textContent.trim()) ||
     (card.querySelector(".price") && card.querySelector(".price").textContent.trim()) ||
     (card.querySelector(".preco") && card.querySelector(".preco").textContent.trim()) ||
     "R$ 0,00";
+    
   const imgEl =
     card.querySelector(".imagem-principal img") ||
     card.querySelector("img") ||
     null;
   const img = imgEl ? imgEl.getAttribute("src") : "";
-  // tenta converter price para número simples
+  
   const priceNum = parseFloat(String(priceText).replace(/[^\d,.-]/g,"").replace(",",".")) || 0;
-  // tentar pegar tamanho selecionado
+  
   let size = null;
   if (card && card.dataset && card.dataset.selectedSize) {
     size = card.dataset.selectedSize;
   } else {
-    const sizeBtn = card.querySelector('.tamanhos .opcoes button.selecionado');
+    // Tenta pegar da classe highlight (comum na listagem)
+    const sizeBtn = card.querySelector('.tamanhos .opcoes button.selecionado') || card.querySelector('.sizes .size.highlight');
     if (sizeBtn) size = sizeBtn.textContent.trim();
     else {
-      const firstSize = card.querySelector('.tamanhos .opcoes button');
-      if (firstSize) size = firstSize.textContent.trim();
+        // Auto select first
+        const first = card.querySelector('.tamanhos .opcoes button') || card.querySelector('.sizes .size');
+        if(first) size = first.textContent.trim();
     }
   }
-  // tentar pegar cor selecionada
+  
   let color = null;
   if (card && card.dataset && card.dataset.selectedColor) {
     color = card.dataset.selectedColor || null;
@@ -238,42 +265,25 @@ function extractProductFromPage(button) {
     if (colorBtn) {
       const classes = Array.from(colorBtn.classList);
       color = classes.find(c => c !== 'cor' && c !== 'selecionado') || colorBtn.getAttribute('aria-label') || null;
-    } else {
-      const firstColorBtn = card.querySelector('.opcoes-cores button');
-      if (firstColorBtn) {
-        const classes = Array.from(firstColorBtn.classList);
-        color = classes.find(c => c !== 'cor' && c !== 'selecionado') || firstColorBtn.getAttribute('aria-label') || null;
-      }
     }
   }
-  // quantidade
+  
   let quantity = 1;
   const qtyInput = card.querySelector('input.qty, input.quantity');
   if (qtyInput) quantity = Math.max(1, parseInt(qtyInput.value, 10) || 1);
   return { title, price: priceNum, priceText, img, size, color, quantity };
 }
 
-function initAddToCartButtons() {
-  // botões com classe .btn-carrinho, .add, .opcao (quando relevante)
-  document.querySelectorAll(".btn-carrinho, .add, button.add-to-cart").forEach(btn => {
-    btn.addEventListener("click", (ev) => {
+function initAddToCartButtons(scope = document) {
+  scope.querySelectorAll(".btn-carrinho, .add, button.add-to-cart").forEach(btn => {
+    // Remove listener antigo para evitar duplicação (hack simples)
+    const newBtn = btn.cloneNode(true);
+    if(btn.parentNode) btn.parentNode.replaceChild(newBtn, btn);
+    
+    newBtn.addEventListener("click", (ev) => {
       ev.preventDefault();
-      // extrai dados completos incluindo tamanho, cor e quantidade
-      const raw = extractProductFromPage(btn);
-      const container = btn.closest('.produto-container') || btn.closest('.card') || btn.closest('.product') || document.body;
-      // se não houver seleção de tamanho, tenta auto-selecionar o primeiro disponível
-      if (!raw.size) {
-        const firstSize = container.querySelector('.tamanhos .opcoes button');
-        if (firstSize) raw.size = firstSize.textContent.trim();
-      }
-      // se não houver seleção de cor, tenta auto-selecionar a primeira disponível
-      if (!raw.color) {
-        const firstColorBtn = container.querySelector('.opcoes-cores button');
-        if (firstColorBtn) {
-          const classes = Array.from(firstColorBtn.classList);
-          raw.color = classes.find(c => c !== 'cor' && c !== 'selecionado') || null;
-        }
-      }
+      const raw = extractProductFromPage(newBtn);
+      
       const item = {
         title: raw.title,
         price: raw.price,
@@ -282,19 +292,17 @@ function initAddToCartButtons() {
         color: raw.color || null,
         quantity: raw.quantity || 1
       };
-      // adiciona ao carrinho e mostra feedback visual (toast)
       addToCart(item);
-      showToast(`Adicionado ao carrinho: ${item.title} (x${item.quantity || 1})`);
+      showToast(`Adicionado: ${item.title}`);
     });
   });
 }
 
-/* ======= RENDERIZA CARRINHO NA PÁGINA carrinho.html ======= */
+/* ======= RENDERIZA CARRINHO ======= */
 function renderCartOnCartPage() {
-  // detecta página pelo container .carrinho existente ou pathname
   const container = document.querySelector(".carrinho");
   if (!container || !window.location.pathname.endsWith("carrinho.html")) return;
-  container.innerHTML = ""; // limpa template
+  container.innerHTML = "";
   const cart = getCart();
   if (cart.length === 0) {
     container.innerHTML = "<p>Seu carrinho está vazio.</p>";
@@ -315,7 +323,7 @@ function renderCartOnCartPage() {
           <img src="${item.img || '../img/exemplo1.png'}" alt="" style="width:60px;height:auto;border-radius:6px;border:1px solid #ddd">
           <div>
             <div style="font-weight:600;text-transform:lowercase">${item.title}</div>
-            <div style="color:#666">${item.size ? ('Tamanho: ' + item.size) : ''} ${item.color ? ('— Cor: ' + item.color) : ''}</div>
+            <div style="color:#666">${item.size ? ('Tam: ' + item.size) : ''} ${item.color ? ('| ' + item.color) : ''}</div>
           </div>
         </div>
         <div style="text-align:right;min-width:220px">
@@ -344,57 +352,30 @@ function renderCartOnCartPage() {
 
   container.querySelectorAll(".remove-item").forEach(btn => {
     btn.addEventListener("click", () => {
-      const idx = parseInt(btn.getAttribute("data-idx"), 10);
-      removeFromCart(idx);
+      removeFromCart(parseInt(btn.getAttribute("data-idx"), 10));
       renderCartOnCartPage();
     });
   });
-  // controles de quantidade
+  
+  // Events delegation could be better, but sticking to existing pattern
   container.querySelectorAll('.qty-incr').forEach(btn => {
     btn.addEventListener('click', () => {
-      const idx = parseInt(btn.getAttribute('data-idx'), 10);
-      const cart = getCart();
-      if (cart[idx]) {
-        cart[idx].quantity = Number(cart[idx].quantity || 1) + 1;
-        saveCart(cart);
-        renderCartOnCartPage();
-      }
+        const idx = parseInt(btn.getAttribute('data-idx'), 10);
+        const c = getCart(); c[idx].quantity++; saveCart(c); renderCartOnCartPage();
     });
   });
   container.querySelectorAll('.qty-decr').forEach(btn => {
     btn.addEventListener('click', () => {
-      const idx = parseInt(btn.getAttribute('data-idx'), 10);
-      const cart = getCart();
-      if (cart[idx]) {
-        const next = Number(cart[idx].quantity || 1) - 1;
-        if (next <= 0) {
-          removeFromCart(idx);
-        } else {
-          cart[idx].quantity = next;
-          saveCart(cart);
-        }
-        renderCartOnCartPage();
-      }
-    });
-  });
-  container.querySelectorAll('.qty-input').forEach(inp => {
-    inp.addEventListener('change', () => {
-      const idx = parseInt(inp.getAttribute('data-idx'), 10);
-      let v = parseInt(inp.value, 10) || 1;
-      if (v < 1) v = 1;
-      const cart = getCart();
-      if (cart[idx]) {
-        cart[idx].quantity = v;
-        saveCart(cart);
-        renderCartOnCartPage();
-      }
+        const idx = parseInt(btn.getAttribute('data-idx'), 10);
+        const c = getCart(); 
+        if(c[idx].quantity > 1) { c[idx].quantity--; } 
+        else { c.splice(idx,1); }
+        saveCart(c); renderCartOnCartPage();
     });
   });
 
-  // ========== MODIFICADO: REDIRECIONA PARA CHECKOUT ==========
   const finalizar = document.getElementById("btn-finalizar-carrinho");
   if (finalizar) finalizar.addEventListener("click", () => {
-    // Redireciona para o checkout para preencher dados
     window.location.href = "checkout.html";
   });
 }
@@ -405,20 +386,13 @@ function renderSummaryOnCheckoutAndPagamento() {
   if (!path.endsWith("checkout.html") && !path.endsWith("pagamento.html")) return;
   
   const cart = getCart();
-  const summaryContainers = document.querySelectorAll("#lista-produtos-resumo, .resumo-pedido, .valores, .resumo");
-  const total = getCartTotal();
-
-  // Se não tiver container específico com ID, usa os genéricos, mas vamos focar no ID do checkout.html
   const listaProdutosEl = document.getElementById('lista-produtos-resumo');
   const valoresEl = document.getElementById('valores-resumo');
+  const total = getCartTotal();
 
   if (listaProdutosEl && valoresEl) {
-     // Renderização Específica para Checkout.html
      listaProdutosEl.innerHTML = "";
-     
-     if(cart.length === 0) {
-         listaProdutosEl.innerHTML = "<p>Seu carrinho está vazio.</p>";
-     }
+     if(cart.length === 0) listaProdutosEl.innerHTML = "<p>Seu carrinho está vazio.</p>";
 
      cart.forEach(item => {
         const row = document.createElement("div");
@@ -439,7 +413,6 @@ function renderSummaryOnCheckoutAndPagamento() {
         listaProdutosEl.appendChild(row);
      });
 
-     // Renderiza Totais
      valoresEl.innerHTML = `
         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
             <span>Subtotal</span>
@@ -455,138 +428,114 @@ function renderSummaryOnCheckoutAndPagamento() {
             <span>${formatBRL(total)}</span>
         </div>
      `;
-
-  } else {
-     // Fallback para outras páginas de resumo se houver
-     summaryContainers.forEach(container => {
-        if(container.id === 'lista-produtos-resumo' || container.id === 'valores-resumo') return; // Já tratado acima
-
-        container.innerHTML = "";
-        cart.forEach(item => {
-            const row = document.createElement("div");
-            row.style.display = "flex";
-            row.style.alignItems = "center";
-            row.style.justifyContent = "space-between";
-            row.style.marginBottom = "8px";
-            const totalItem = (Number(item.price || 0) * Number(item.quantity || 1));
-            row.innerHTML = `<span style="display:flex;gap:8px;align-items:center">
-                <img src="${item.img || '../img/exemplo1.png'}" style="width:48px;border-radius:6px">
-                <span style="text-transform:lowercase">${item.title} ${item.size ? ('— ' + item.size) : ''} ${item.color ? ('— ' + item.color) : ''} (x${item.quantity || 1})</span>
-            </span><strong>${formatBRL(totalItem)}</strong>`;
-            container.appendChild(row);
-        });
-        const hr = document.createElement("hr");
-        hr.style.margin = "10px 0";
-        container.appendChild(hr);
-        const totalEl = document.createElement("h3");
-        totalEl.style.display = "flex";
-        totalEl.style.justifyContent = "space-between";
-        totalEl.innerHTML = `<span>Total</span><span>${formatBRL(total)}</span>`;
-        container.appendChild(totalEl);
-    });
   }
 }
 
-/* ======= LÓGICA DO FORMULÁRIO DE CHECKOUT (WHATSAPP) ======= */
+/* ======= WHATSAPP ======= */
 function initCheckoutForm() {
     const form = document.getElementById("form-cliente");
     if (!form) return;
-
     form.addEventListener("submit", (ev) => {
         ev.preventDefault();
-
         const cart = getCart();
-        if (cart.length === 0) {
-            alert("Seu carrinho está vazio!");
-            return;
-        }
+        if (cart.length === 0) { alert("Carrinho vazio!"); return; }
 
-        // Coletar dados do formulário
         const nome = document.getElementById("nome-checkout")?.value || "";
-        const sobrenome = document.getElementById("sobrenome-checkout")?.value || "";
-        const email = document.getElementById("email-checkout")?.value || "";
         const telefone = document.getElementById("telefone-checkout")?.value || "";
         const rua = document.getElementById("rua-checkout")?.value || "";
         const numero = document.getElementById("numero-checkout")?.value || "";
-        const bairro = document.getElementById("bairro-checkout")?.value || "";
-        const complemento = document.getElementById("complemento-checkout")?.value || "";
-
-        // Montar mensagem do WhatsApp
-        let msg = `*NOVO PEDIDO - DREAMER IMPORTS*\n\n`;
-        msg += `*👤 DADOS DO CLIENTE*\n`;
-        msg += `Nome: ${nome} ${sobrenome}\n`;
-        msg += `Telefone: ${telefone}\n`;
-        msg += `Email: ${email}\n\n`;
-
-        msg += `*📍 ENDEREÇO DE ENTREGA*\n`;
-        msg += `${rua}, Nº ${numero}\n`;
-        msg += `Bairro: ${bairro}\n`;
-        if (complemento) msg += `Complemento: ${complemento}\n`;
-        msg += `\n--------------------------------\n`;
         
-        msg += `*🛒 ITENS DO PEDIDO*\n`;
+        let msg = `*NOVO PEDIDO - DREAMER IMPORTS*\n\n*Cliente:* ${nome}\n*Tel:* ${telefone}\n*Endereço:* ${rua}, ${numero}\n\n*Itens:*\n, *CHAVE PIX: 34998716289\n*`;
         cart.forEach((item, i) => {
-            const itemTotal = formatBRL(Number(item.price || 0) * Number(item.quantity || 1));
-            msg += `${i+1}. ${item.title}\n`;
-            msg += `   📝 ${item.size ? 'Tam: ' + item.size : ''} ${item.color ? '| Cor: ' + item.color : ''}\n`;
-            msg += `   📦 Qtd: ${item.quantity} | Valor: ${itemTotal}\n\n`;
+            msg += `${i+1}. ${item.title} (${item.size || '-'}) x${item.quantity}\n`;
         });
-        
-        msg += `--------------------------------\n`;
-        msg += `*💰 TOTAL DO PEDIDO: ${formatBRL(getCartTotal())}*\n`;
-        msg += `--------------------------------\n`;
-        msg += `Aguardo a confirmação do pagamento e envio!`;
+        msg += `\n*Total: ${formatBRL(getCartTotal())}*`;
 
-        // Número com código do país (55) e DDD
         const phone = '5534998716289'; 
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-
-        // Abrir WhatsApp
-        try {
-            window.open(url, '_blank');
-            showToast('Redirecionando para o WhatsApp...', 3000);
-            
-            // Opcional: Limpar carrinho após sucesso?
-            // localStorage.removeItem(CART_KEY);
-            // window.location.href = "sucesso.html"; // Se existir página de sucesso
-        } catch (e) {
-            window.location.href = url;
-        }
+        window.open(url, '_blank');
     });
 }
 
-/* ======= BUSCA ======= */
+/* ======= BUSCA E RENDERIZAÇÃO DE LISTAGEM ======= */
 function initSearchBars() {
+  // Configura input de busca
   document.querySelectorAll(".search-bar input").forEach(inp => {
     inp.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         const q = inp.value.trim();
-        const url = "listagem.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
-        window.location.href = url;
+        // Redireciona sempre para listagem.html (relativo à pasta atual)
+        // Se estiver em html/, vai para listagem.html. Se na raiz, html/listagem.html?
+        // Assumindo estrutura html/pages.
+        const target = window.location.pathname.includes('/html/') ? "listagem.html" : "html/listagem.html";
+        window.location.href = `${target}${q ? `?q=${encodeURIComponent(q)}` : ""}`;
       }
     });
   });
+
+  // Renderiza produtos na listagem.html
   if (window.location.pathname.endsWith("listagem.html")) {
     const params = new URLSearchParams(window.location.search);
-    const q = params.get("q");
-    if (q) {
-      const products = document.querySelectorAll(".product");
-      products.forEach(p => {
-        const text = (p.textContent || "").toLowerCase();
-        p.style.display = text.includes(q.toLowerCase()) ? "" : "none";
-      });
-    }
+    const q = params.get("q") || ""; // string vazia = mostrar todos
+    renderProductsList(q);
   }
+}
+
+function renderProductsList(query) {
+  const container = document.querySelector("section.products");
+  if (!container) return; // Não estamos na página correta ou estrutura mudou
+
+  container.innerHTML = ""; // Limpa produtos hardcoded
+
+  // Filtra produtos
+  const terms = query.toLowerCase().split(" ");
+  const filtered = productsDB.filter(p => {
+    if (!query) return true; // Mostra tudo se não tiver busca
+    const text = (p.title + " " + p.category).toLowerCase();
+    return terms.every(term => text.includes(term));
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<p style="width:100%;text-align:center;padding:40px;">Nenhum produto encontrado para "${query}".</p>`;
+    return;
+  }
+
+  // Gera HTML
+  filtered.forEach(p => {
+    const el = document.createElement("div");
+    el.className = "product";
+    
+    // Gera HTML dos tamanhos
+    let sizesHTML = "";
+    if (p.sizes && p.sizes.length) {
+      sizesHTML = `<div class="sizes">
+        ${p.sizes.map(s => `<div class="size">${s}</div>`).join('')}
+      </div>`;
+    }
+
+    el.innerHTML = `
+      <a href="${p.link}">
+        <img src="${p.img}" alt="${p.title}">
+      </a>
+      <p>${p.title}</p>
+      <p class="price">${formatBRL(p.price)}</p>
+      ${sizesHTML}
+    `;
+    container.appendChild(el);
+  });
+
+  // Re-atribui eventos (clique em tamanho, etc) aos novos elementos
+  setupProductInteractions(container);
 }
 
 /* ======= INICIALIZAÇÃO ======= */
 function initSiteJS() {
   updateCartBadge();
   initGalleries();
-  initAddToCartButtons();
+  initAddToCartButtons(); // init inicial
   renderCartOnCartPage();
   renderSummaryOnCheckoutAndPagamento();
-  initCheckoutForm(); // Inicializa lógica do formulário de checkout
+  initCheckoutForm();
   initSearchBars();
 }
 

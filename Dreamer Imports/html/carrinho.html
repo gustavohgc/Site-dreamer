@@ -7,30 +7,31 @@
     <link rel="stylesheet" href="../css/carrinho.css">
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo">
-                <a href="../index.html">
-                    <img src="../img/logo.png" alt="logo">
-                </a>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar...">
-                <button>🔍</button>
-            </div>
-            <div class="icons">
-                <a href="cadastro.html"><span>👤</span></a>
-                <a href="carrinho.html"><span>🛒</span><span class="cart-badge">0</span></a>
-            </div>
-        </div>
-        <nav>
-           <a href="listagemCamisetas.html">CAMISETAS</a>
-            <a href="listagemCalças.html">CALÇAS</a>
-            <a href="listagemBermudas.html">BERMUDAS</a>
-            <a href="listagemCalçados.html">CALÇADOS</a>
-            <a href="listagemAcessorios.html">ACESSÓRIOS</a>
-        </nav>
-    </header>
+      <header>
+  <div class="navbar">
+    <div class="logo"><a href="index.html">
+      <img src="img/logo.png" alt="logo"></a>
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+      <button>🔍</button>
+    </div>
+    <div class="icons">
+       <button id="btn-header-login" title="Entrar ou Cadastrar" class="icon-button">👤</button>
+       <!-- 2. Elementos do Usuário Logado  -->
+      <span id="header-user-name" class="header-user-text" style="display: none;"></span>
+      <button id="btn-header-logout" class="btn-logout-header" style="display: none;">Sair</button>
+      <a href="carrinho.html"><span>🛒</span></a>
+    </div>
+    </div>
+  <nav>
+    <a href="listagemCamisetas.html">CAMISETAS</a>
+    <a href="listagemCalças.html">CALÇAS</a>
+    <a href="listagemBermudas.html">BERMUDAS</a>
+    <a href="listagemCalçados.html">CALÇADOS</a>
+    <a href="listagemAcessorios.html">ACESSÓRIOS</a>
+  </nav>
+</header>
     
     <!-- Main -->
     <main>

@@ -7,30 +7,31 @@
   <title>Dreamer Imports</title>
 </head>
 <body>
-
-  <!-- ======= CABEÇALHO ======= -->
   <header>
-    <div class="navbar">
-      <div class="logo"><a href="index.html">
-          <img src="img/logo.png" alt="logo"></a>
-      </div>
-      <div class="search-bar">
-        <input type="text" placeholder="Buscar...">
-        <button>🔍</button>
-      </div>
-      <div class="icons">
-        <a href="cadastro.html"><span>👤</span></a>
-        <a href="carrinho.html"><span>🛒</span></a>
-      </div>
+  <div class="navbar">
+    <div class="logo"><a href="index.html">
+      <img src="img/logo.png" alt="logo"></a>
     </div>
-    <nav>
-      <a href="listagemCamisetas.html">CAMISETAS</a>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+      <button>🔍</button>
+    </div>
+    <div class="icons">
+       <button id="btn-header-login" title="Entrar ou Cadastrar" class="icon-button">👤</button>
+       <!-- 2. Elementos do Usuário Logado  -->
+      <span id="header-user-name" class="header-user-text" style="display: none;"></span>
+      <button id="btn-header-logout" class="btn-logout-header" style="display: none;">Sair</button>
+      <a href="carrinho.html"><span>🛒</span></a>
+    </div>
+    </div>
+  <nav>
+    <a href="listagemCamisetas.html">CAMISETAS</a>
     <a href="listagemCalças.html">CALÇAS</a>
     <a href="listagemBermudas.html">BERMUDAS</a>
     <a href="listagemCalçados.html">CALÇADOS</a>
     <a href="listagemAcessorios.html">ACESSÓRIOS</a>
-    </nav>
-  </header>
+  </nav>
+</header>
 
   <!-- ======= CONTEÚDO ======= -->
   <div class="container">
@@ -53,12 +54,6 @@
         </a>
         <p>Camisa Bege Streetwear</p>
         <p class="price">R$ 120,00</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
       </div>
 
       <!-- Produto 2 -->
@@ -68,12 +63,6 @@
         </a>
         <p>Camiseta Preta Blunt</p>
         <p class="price">R$ 135,00</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
       </div>
 
       <!-- Produto 3 -->
@@ -83,12 +72,6 @@
         </a>
         <p>Camiseta Preta NG</p>
         <p class="price">R$ 299,90</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
       </div>
 
       <!-- Produto 4 -->
@@ -98,13 +81,6 @@
         </a>
         <p>Camiseta Preta Logo</p>
         <p class="price">R$ 229,90</p>
-        <div class="sizes">
-          <div class="size">38</div>
-          <div class="size">40</div>
-          <div class="size highlight">42</div>
-        </div>
-      </div>
-
     </section>
   </div>
 

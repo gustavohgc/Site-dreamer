@@ -7,7 +7,7 @@
   <title>Atendimento - Dreamer Imports</title>
 </head>
 <body>
-  <header>
+    <header>
   <div class="navbar">
     <div class="logo"><a href="index.html">
       <img src="img/logo.png" alt="logo"></a>
@@ -17,7 +17,10 @@
       <button>🔍</button>
     </div>
     <div class="icons">
-      <a href="cadastro.html"><span>👤</span></a>
+       <button id="btn-header-login" title="Entrar ou Cadastrar" class="icon-button">👤</button>
+       <!-- 2. Elementos do Usuário Logado  -->
+      <span id="header-user-name" class="header-user-text" style="display: none;"></span>
+      <button id="btn-header-logout" class="btn-logout-header" style="display: none;">Sair</button>
       <a href="carrinho.html"><span>🛒</span></a>
     </div>
     </div>
@@ -36,8 +39,8 @@
 
     <section class="contatos">
       <div class="contato">
-        <img src="img/" alt="QR WhatsApp" class="qr">
-        <p class="legenda">(xx) xxxxx-xxxx</p>
+        <img src="img/whatsapp-qr.png" alt="QR WhatsApp" class="qr">
+        <p class="legenda">(34) 99871-6289</p>
       </div>
 
       <div class="separador" aria-hidden="true"></div>

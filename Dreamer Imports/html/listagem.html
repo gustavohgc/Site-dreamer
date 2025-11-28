@@ -1,36 +1,39 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <link rel="stylesheet" href="../css/listagem.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dreamer Imports</title>
+  <title>Listagem - Dreamer Imports</title>
 </head>
 <body>
 
-  <!-- ======= CABEÇALHO ======= -->
   <header>
-    <div class="navbar">
-      <div class="logo"><a href="index.html">
-          <img src="img/logo.png" alt="logo"></a>
-      </div>
-      <div class="search-bar">
-        <input type="text" placeholder="Buscar...">
-        <button>🔍</button>
-      </div>
-      <div class="icons">
-        <a href="cadastro.html"><span>👤</span></a>
-        <a href="carrinho.html"><span>🛒</span></a>
-      </div>
+  <div class="navbar">
+    <div class="logo"><a href="index.html">
+      <img src="img/logo.png" alt="logo"></a>
     </div>
-    <nav>
-      <a href="listagemCamisetas.html">CAMISETAS</a>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+      <button>🔍</button>
+    </div>
+    <div class="icons">
+       <button id="btn-header-login" title="Entrar ou Cadastrar" class="icon-button">👤</button>
+       <!-- 2. Elementos do Usuário Logado  -->
+      <span id="header-user-name" class="header-user-text" style="display: none;"></span>
+      <button id="btn-header-logout" class="btn-logout-header" style="display: none;">Sair</button>
+      <a href="carrinho.html"><span>🛒</span></a>
+    </div>
+    </div>
+  <nav>
+    <a href="listagemCamisetas.html">CAMISETAS</a>
     <a href="listagemCalças.html">CALÇAS</a>
     <a href="listagemBermudas.html">BERMUDAS</a>
     <a href="listagemCalçados.html">CALÇADOS</a>
     <a href="listagemAcessorios.html">ACESSÓRIOS</a>
-    </nav>
-  </header>
+  </nav>
+</header>
 
   <!-- ======= CONTEÚDO ======= -->
   <div class="container">
@@ -43,218 +46,10 @@
       <div class="filter-option"><input type="checkbox"> Acima de R$300</div>
     </aside>
 
-    <!-- ======= PRODUTOS ======= -->
+    <!-- ======= PRODUTOS (Container Dinâmico) ======= -->
+    <!-- Os produtos agora são gerados pelo script.js com base no array productsDB -->
     <section class="products">
-
-        <!-- Camisetas -->
-
-         <!-- Produto 1 -->
-      <div class="product">
-        <a href="roupas.html">
-          <img src="img/camiseta01.png"  alt="Camisa Streetwear">
-        </a>
-        <p>Camisa Bege Streetwear</p>
-        <p class="price">R$ 120,00</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
-      </div>
-
-      <!-- Produto 2 -->
-      <div class="product">
-        <a href="camiseta02.html">
-          <img src="img/camiseta02.png" alt="Camiseta Preta Blunt">
-        </a>
-        <p>Camiseta Preta Blunt</p>
-        <p class="price">R$ 135,00</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
-      </div>
-
-      <!-- Produto 3 -->
-      <div class="product">
-        <a href="camiseta03.html">
-          <img src="img/camiseta3.png" alt="Camiseta Preta NG">
-        </a>
-        <p>Camiseta Preta NG</p>
-        <p class="price">R$ 299,90</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
-      </div>
-
-      <!-- Produto 4 -->
-      <div class="product">
-        <a href="camiseta04.html">
-          <img src="img/camiseta04.png" alt="Camiseta Preta Logo">
-        </a>
-        <p>Camiseta Preta Logo</p>
-        <p class="price">R$ 229,90</p>
-        <div class="sizes">
-          <div class="size">38</div>
-          <div class="size">40</div>
-          <div class="size highlight">42</div>
-        </div>
-      </div>
-
-    <!-- Bermudas -->
-
-      <!-- Produto 1 -->
-      <div class="product">
-        <a href="bermuda01.html">
-          <img src="img/bermuda01.png" alt="">
-        </a>
-        <p>Bermuda Cargo Bege</p>
-        <p class="price">R$ 129,90</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
-      </div>
-
-      <!-- Produto 2 -->
-      <div class="product">
-        <a href="bermuda02.html">
-          <img src="img/bermuda02.png" alt="Produto 2">
-        </a>
-        <p>bermuda Cargo Marrom</p>
-        <p class="price">R$ 159,90</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
-      </div>
-
-      <!-- Produto 3 -->
-      <div class="product">
-        <a href="bermuda03.html">
-          <img src="img/bermuda03.png" alt="Produto 3">
-        </a>
-        <p>Bermuda Cargo Preta</p>
-        <p class="price">R$ 100,00</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size">M</div>
-          <div class="size">G</div>
-          <div class="size">GG</div>
-        </div>
-      </div>
-
-       <!-- Produto 4 -->
-      <div class="product">
-        <a href="bermuda04.html">
-          <img src="img/bermuda04.png" alt="Produto 3">
-        </a>
-        <p>Bermuda Preta</p>
-        <p class="price">R$ 60,00</p>
-        <div class="sizes">
-          <div class="size">38</div>
-          <div class="size">40</div>
-          <div class="size highlight">42</div>
-        </div>
-      </div>
-
-       <!-- Produto 5 -->
-      <div class="product">
-        <a href="bermuda05.html">
-          <img src="img/bermuda05.png" alt="Produto 3">
-        </a>
-        <p>Bermuda Branca</p>
-        <p class="price">R$ 110,00</p>
-        <div class="sizes">
-          <div class="size">38</div>
-          <div class="size">40</div>
-          <div class="size highlight">42</div>
-        </div>
-      </div>
-
-      <!-- Calças -->
-
-      <!-- Produto 1 -->
-      <div class="product">
-        <a href="calca.html">
-          <img src="img/calca01.png" alt="Camisa Streetwear">
-        </a>
-        <p>Calça Cargo</p>
-        <p class="price">R$ 199,90</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size highlight">M</div>
-          <div class="size">G</div>
-        </div>
-      </div>
-
-      <!-- Calçados -->
-
-      <!-- Produto 1 -->
-      <div class="product">
-        <a href="sapato01.html">
-          <img src="img/sapato01.png" alt="">
-        </a>
-        <p>Têis Hooks</p>
-        <p class="price">R$ 200,00</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size highlight">M</div>
-          <div class="size">G</div>
-        </div>
-      </div>
-
-      <!-- Produto 2 -->
-      <div class="product">
-        <a href="sapato02.html">
-          <img src="img/sapato02.png" alt="Produto 2">
-        </a>
-        <p>Tênis Bege</p>
-        <p class="price">R$ 249,90</p>
-        <div class="sizes">
-          <div class="size">38</div>
-          <div class="size">40</div>
-          <div class="size highlight">42</div>
-        </div>
-      </div>
-
-      <!-- Produto 3 -->
-      <div class="product">
-        <a href="sapato03.html">
-          <img src="img/sapato03.png" alt="Produto 3">
-        </a>
-        <p>Tênis Hooks com detalhes rosa</p>
-        <p class="price">R$ 299,90</p>
-        <div class="sizes">
-          <div class="size">Único</div>
-        </div>
-      </div>
-
-      <!-- Acessorios -->
-
-      <div class="product">
-        <a href="mochila.html">
-          <img src="img/mochila01.png" alt="">
-        </a>
-        <p>Mochila Fire</p>
-        <p class="price">R$ 199,90</p>
-        <div class="sizes">
-          <div class="size">P</div>
-          <div class="size highlight">M</div>
-          <div class="size">G</div>
-        </div>
-      </div>
-
+        <p style="padding: 2rem; width: 100%; text-align: center;">Carregando produtos...</p>
     </section>
   </div>
 
@@ -268,8 +63,6 @@
   </footer>
 
   <script src="../script.js"></script>
-  <script src="../js/filtro.js"></script>
-  <script src="../js/visualizacao.js"></script>
   <script type="module" src="../auth-global.js"></script>
 </body>
 </html>

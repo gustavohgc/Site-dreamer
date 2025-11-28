@@ -208,3 +208,46 @@ footer a {
   margin-left: 15px;
   text-decoration: none;
 }
+
+.header-user-text {
+  /* Mude a cor para a cor do texto do seu site */
+  color: #333; 
+  font-weight: bold;
+  margin: 0 10px;
+  vertical-align: middle;
+}
+
+/* Para o botão "Sair" */
+.btn-logout-header {
+  background-color: #f44336; /* Vermelho */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+.btn-logout-header:hover {
+  background-color: #d32f2f;
+}
+/* Para os botões de ícone (Perfil e Carrinho) 
+   Isso remove a borda e o fundo feio do <button> */
+.search-bar .icon-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem; /* Ajuste o tamanho do ícone se precisar */
+  cursor: pointer;
+  padding: 0 5px;
+  vertical-align: middle; /* Alinha os ícones */
+}
+/* Estilos para os botões de ícone (Perfil e Carrinho) */
+.icon-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem; /* Ajuste o tamanho do ícone se precisar */
+  cursor: pointer;
+  padding: 0 5px;
+  color: white; /* Cor do ícone */
+}
